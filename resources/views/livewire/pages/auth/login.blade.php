@@ -20,16 +20,19 @@ new #[Layout('layouts.guest')] class extends Component
         $this->form->authenticate();
 
         Session::regenerate();
+        $selectedProjectId = session()->pull('selected_projectId');
 
         //Pembagian autentikasi admin-user
         if (Auth::user()->role == 'admin') {
             #
         $this->redirectIntended(default: 'admin-dashboard', navigate: true);
         } else {
-            $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
-        } //Route for user dashboard
+            //Route for user dashboard
+            $this->redirectIntended(route('dashboard', ['projectId' => $selectedProjectId]), navigate: true);
+            // $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
+        }
+        
 
-        // $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
     }
 }; ?>
 
